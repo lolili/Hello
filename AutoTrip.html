@@ -3,67 +3,236 @@
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<meta name="author" content="lolili">
+<meta name="version" content="2.0">
+<meta name="description" content="DiDi receipt editor, support to edit items for each trip,
+and add/remove any trip wherever the position in whole receipt is.">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <head>
-    <title>Receipt</title>
+    <title>AutoTrip</title>
     <link href="https://cdn.bootcss.com/jquery-datetimepicker/2.5.17/jquery.datetimepicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
 <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-datetimepicker/2.5.17/jquery.datetimepicker.full.min.js"></script>
-
 </head>
+<!-- Preview Button Selection -->
+<style>
+.toggle1{
+  display: block;
+  margin: 10px 0px 0px 0px;
+}
+
+.toggle1-input{
+  display: none;
+}
+
+.toggle1-button{
+  position: relative;
+  display: inline-block;
+  font-size: 1rem;
+  line-height: 20px;
+  text-transform: uppercase;
+  background-color: #00b3b4;
+  border: 1px solid #00b3b4;
+  color: white;
+  width: 100%;
+  height: 30px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+
+.toggle1-button::before{
+  position: absolute;
+  top: 5px;
+  left: 280px;
+  content: "Table List";
+  display: inline-block;
+  height: 20px;
+  padding: 0 3px;
+  background: white;
+  color: #00b3b4;
+  transition: all 0.3s ease;
+}
+
+.toggle1-input:checked + .toggle1-button{
+ background: #f2395a; 
+ border-color: #f2395a;
+}
+
+.toggle1-input:checked + .toggle1-button::before{
+  left: 5px;
+  content: 'Pre view';
+  color: #f2395a;
+}
+</style>
+
+<!-- input text and download area -->
+<style> 
+#align-table th, #align-table td {padding: 2px 30px;text-align: left;}
+
+strong {
+  font-weight: bold;
+}
+.button, .area{
+  background-color: #f2f2f2;
+  background-image: linear-gradient(to bottom, #f2f2f2, #f2f2f2);
+  border: 1px solid #bfbfbf;
+  box-shadow: inset 0 1px 0 white, inset 0 -1px 0 #d9d9d9, inset 0 0 0 1px #f2f2f2, 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: #8c8c8c;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Verdana, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  padding: 9px 16px 9px;
+  margin: 16px 0 0 16px;
+  transition: all 20ms ease-out;
+  vertical-align: top;
+}
+.button:hover, .button:focus {
+  background: #f2f2f2;
+  border-color: #8c8c8c;
+  box-shadow: inset 0 1px 0 white, inset 0 -1px 0 #d9d9d9, inset 0 0 0 1px #f2f2f2;
+}
+.button:active {
+  background: #f2f2f2;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+.button .fa {
+  color: #bfbfbf;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  font: normal normal normal 14px/1 FontAwesome;
+}
+
+.button .fa {
+  float: left;
+  font-size: 14px;
+  line-height: 20px;
+  margin: -1px 8px 0 -4px;
+  vertical-align: top;
+}
+</style>
+<!-- button -->
+<style>
+.Button { 
+	cursor: pointer;width: 50px; height: 50px; border-radius: 25px; 
+	background: none; transition: width .5s ease; color:#000; border: 4px solid 
+	#000; position: relative; padding-left: 30px; color: #000; overflow: hidden; text-align: center;
+}
+.Button span { 
+	white-space: nowrap; transition: all ease .3s; opacity: 0; font-size: 16px; line-height: 20px; transition: all ease .3s;
+}
+.Button:after { 
+    font-size: 2.6em;
+  	height: 50px;
+    position: absolute;
+    bottom: 0px; }
+.Button-plus:after{content: "+";left: 12px;top: 0px;}
+.Button-sub:after{content: "-";left: 16px;top: -3px;}
+
+.Button:hover { width: 240px;}
+.Button:hover span{ opacity: 1; transition-delay:.3s;  transition: all ease .3s; }
+</style>
+<style type="text/css">
+	.btn {
+		background-color: rgba(0, 180, 100, 1);
+		border: rgba(0, 180, 100, 1) 1px, solid;
+		outline: none;
+		cursor: pointer;
+		padding: 14px 20px;
+		color: rgba(255, 255, 255, 1.0);
+		text-align: center;
+		font-size: 16px;
+		margin: 10px;
+ 	}
+ 	.cir {
+ 		padding: 13px 25px;
+ 		border-radius: 30px;
+ 		box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.3);
+ 		background: -webkit-linear-gradient(bottom, rgba(0, 180, 100, 0.2), rgba(0, 180, 100, 1), rgba(0, 200, 100, 1));
+ 		background: -o-linear-gradient(bottom, rgba(0, 180, 100, 0.2), rgba(0, 180, 100, 1), rgba(0, 200, 100, 1));
+ 		background: -moz-linear-gradient(bottom, rgba(0, 180, 100, 0.2), rgba(0, 180, 100, 1), rgba(0, 200, 100, 1));
+ 		background: linear-gradient(to bottom, rgba(0, 180, 100, 0.2), rgba(0, 180, 100, 1), rgba(0, 200, 100, 1));
+ 	}
+</style>
+<style type="text/css">.insert:before{content: "+";}</style>
+
 <body style="margin: 0; padding: 0;">
     <br>
-    <input type='button' value='download' onClick='download2()' >
-	
-	<br><br>
-	<h2>ADD TRIP</h2>
-<table>
-	<td><input type='button' value='random' onClick='random()'></td>
-	<tr>
-		<td>Order Amount:</td>
-		<td><input type='text' id='amount' value='100.71'></td>
-	</tr>
-	<tr>
-		<td>Time Start:</td>
-		<td><input type='text' id='time_start' ></td>
-	</tr>
-	<tr>
-		<td>Place Start:</td>
-		<td>
-			<select id='place_start'>
-				<option value='home'>HOME</option>
-				<option value='office'>OFFICE</option>
-				<option value='gsi'>GSI</option>
-				<option value='bienestar'>Bienestar</option>
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td>Time Arrive:</td>
-		<td><input type='text' id='time_arrive' ></td>
-	</tr>
-	<tr>
-		<td>Place Arrive:</td>
-		<td>
-			<select id='place_arrive'>
-				<option value='home'>HOME</option>
-				<option value='office'>OFFICE</option>
-				<option value='gsi'>GSI</option>
-				<option value='bienestar'>Bienestar</option>
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td align=''><input type='button' value='add to Trip' onClick='AddTrip()' ></td>
-		<td align=''><input type='button' value='reduce one Trip' onClick='ReduceTrip()' ></td>
-	</tr>
-</table>
+<div class="area" style="cursor: default;">
+	<a class="button" onClick='download2()'>
+   		<i class="fa fa-cloud-download"> </i>
+   		<Strong style="color: goldenrod">Download</Strong>
+   	</a>
 
+   	<label for="toggle1" class="toggle1">
+  		<input type="checkbox" id="toggle1" class="toggle1-input" onclick="if_preview()">
+  		<span class="toggle1-button"></span>
+	</label>
+
+	<h2 style="width: 383.92px;text-align: center; font-style: italic;">ADD TRIP</h2>
+	<table id="align-table">
+		<button class="btn cir" onClick='random()'>Random</button>
+		<tr>
+			<td>Order Amount:</td>
+			<td><input type='text' id='amount' value='100.71'></td>
+		</tr>
+		<tr>
+			<td>Time Start:</td>
+			<td><input type='text' id='time_start' ></td>
+		</tr>
+		<tr>
+			<td>Place Start:</td>
+			<td>
+				<select id='place_start'>
+					<option value='home'>HOME</option>
+					<option value='office'>OFFICE</option>
+					<option value='gsi'>GSI</option>
+					<option value='bienestar'>Bienestar</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Time Arrive:</td>
+			<td><input type='text' id='time_arrive' ></td>
+		</tr>
+		<tr>
+			<td>Place Arrive:</td>
+			<td>
+				<select id='place_arrive'>
+					<option value='home'>HOME</option>
+					<option value='office'>OFFICE</option>
+					<option value='gsi'>GSI</option>
+					<option value='bienestar'>Bienestar</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+	<div style="text-align: center;">
+	<button class="Button Button-sub" style="border-right: 100px;" onClick='ReduceTrip()' ><span>Reduce Trip</span></button>
+	<button class="Button Button-plus" style="border-left: 100px;" onClick='AddTrip()' ><span>Add to Trip</span></button>
+	</div>
+</div>
 
 <div id='preshow' style='position:absolute; left:500px; top:10px; border:1px solid #000'>
 
 <script type="text/javascript">
-	var time_start_m = 0;
+
+	var place_home = 'Av. Río San Joaquín 12, Lomas de Sotelo, Miguel Hidalgo, 11200 Ciudad de México, CDMX, Mexico';
+	var place_office = 'Nte. 31-A 36, Lindavista Vallejo III Secc, Gustavo A. Madero, 07720 Ciudad de México, CDMX, Mexico';
+	var place_gsi = 'Priv. Rancho de La Cruz 98, Jamaica, Venustiano Carranza, 15800 Ciudad de México, CDMX, Mexico';
+	var place_bienestar = 'Tizapán San Ángel, Progreso Tizapán, 01090  Ciudad de México';
+
+	var place = [];
+	place['home'] = place_home;
+	place['office'] = place_office;
+	place['gsi'] = place_gsi;
+	place['bienestar'] = place_bienestar;
+
 	
 var parserDate = function (date) {  
     var t = Date.parse(date);  
@@ -77,7 +246,7 @@ function random()
 {
 	document.getElementById("amount").value = randomNum(120.12, 180.08,0);
 	
-	time_start_m = randomNum(10,59,1);
+	var time_start_m = randomNum(10,59,1);
 	$(function() {
 	    $("#time_start").datetimepicker({format:'d/m/Y H:'+ time_start_m});
 	  });
@@ -102,222 +271,115 @@ function randomNum(minNum,maxNum,isInt){
 
 function AddTrip()
 {
-	var place_home = 'Av. Río San Joaquín 12, Lomas de Sotelo, Miguel Hidalgo, 11200 Ciudad de México, CDMX, Mexico';
-	var place_office = 'Nte. 31-A 36, Lindavista Vallejo III Secc, Gustavo A. Madero, 07720 Ciudad de México, CDMX, Mexico';
-	var place_gsi = 'Priv. Rancho de La Cruz 98, Jamaica, Venustiano Carranza, 15800 Ciudad de México, CDMX, Mexico';
-	var place_bienestar = 'Tizapán San Ángel, Progreso Tizapán, 01090  Ciudad de México';
-
-	var place = [];
-	place['home'] = place_home;
-	place['office'] = place_office;
-	place['gsi'] = place_gsi;
-	place['bienestar'] = place_bienestar;
 	
 	var amount = document.getElementById("amount").value;
 	var time_start = document.getElementById("time_start").value;
-	var place_start = place[document.getElementById("place_start").value];
+	var place_start = document.getElementById("place_start").value;
 	var time_arrive = document.getElementById("time_arrive").value;
-	var place_arrive = place[document.getElementById("place_arrive").value];
+	var place_arrive = document.getElementById("place_arrive").value;
 	
 	// alert('add:' + amount);
 	// alert('this is ' + tripnum + ' trip');
 	// alert('total amount:' + total);
 	
-	var tmpbody = '\
-	            <tr>\n\
-	                <td style="font-size: 32px;font-weight: bold;padding-top: 40px">Order Amount:  MXN$'+amount+'</td>\n\
-	            </tr>\n\
-	            <tr>\n\
-	                <td style="font-size: 26px;font-weight: bold;padding-top: 10px"></td>\n\
-	            </tr>\n\
-	            <tr>\n\
-	                <td style="font-size: 26px"></td>\n\
-	            </tr>\n\
-	            <tr>\n\
-	                <td style="font-size: 26px;color: #999999;padding-top: 20px">\n\
-	                <!--出发时间-->\n\
-	                '+time_start+'\n\
-	                </td>\n\
-	            </tr>\n\
-	            <tr>\n\
-	                <td>\n\
-	                    <table cellpadding="0" cellspacing="0" style="padding-top: 10px;">\n\
-	                        <tr>\n\
-	                            <td>\n\
-	                                <span style="width: 12px;height: 12px;background: #00D0AD;border-radius: 100%;display: inline-block"></span>\n\
-	                            </td>\n\
-	                            <td style="font-size: 26px;padding-left: 14px">\n\
-	                                From: '+place_start+'\n\
-	                            </td>\n\
-	                        </tr>\n\
-	                    </table>\n\
-	                </td>\n\
-	            \n\
-	            </tr>\n\
-	            <tr>\n\
-	                <td style="font-size: 26px;color: #999999;padding-top: 10px">\n\
-	                <!--到达时间-->\n\
-	                '+time_arrive+'\n\
-	                </td>\n\
-	            </tr>\n\
-	            <tr>\n\
-	                <td>\n\
-	                    <table cellpadding="0" cellspacing="0" style="padding-top: 10px;">\n\
-	                        <tr>\n\
-	                            <td>\n\
-	                                <span style="width: 12px;height: 12px;background: #FF7733;border-radius: 100%;display: inline-block"></span>\n\
-	                            </td>\n\
-	                            <td style="font-size: 26px;padding-left: 14px">\n\
-	                                To: '+place_arrive+'\n\
-	                            </td>\n\
-	                        </tr>\n\
-	                    </table>\n\
-	                </td>\n\
-	            </tr>\n\
-	';
-	arr_trip_body[arr_trip_body.length] = tmpbody;
-	arr_amount [arr_amount.length] = amount;
+	var len = arr_trip_table.length;
+	arr_trip_table[len] = {};
+	arr_trip_table[len].amount = amount;
+	arr_trip_table[len].time_start = time_start;
+	arr_trip_table[len].place_start = place_start;
+	arr_trip_table[len].time_arrive = time_arrive;
+	arr_trip_table[len].place_arrive = place_arrive;
+
 	preshow();
 }
 
 function ReduceTrip()
 {
-	arr_trip_body.pop();
-	arr_amount.pop();
+	arr_trip_table.pop();
+	preshow();
+}
+
+function DeleteTrip(i)
+{
+	arr_trip_table.splice(i, 1);
+	preshow();
+}
+
+function InsertTrip(i)
+{
+	var amount = document.getElementById("amount").value;
+	var time_start = document.getElementById("time_start").value;
+	var place_start = document.getElementById("place_start").value;
+	var time_arrive = document.getElementById("time_arrive").value;
+	var place_arrive = document.getElementById("place_arrive").value;
+	
+	var trip = {};
+	trip.amount = amount;
+	trip.time_start = time_start;
+	trip.place_start = place_start;
+	trip.time_arrive = time_arrive;
+	trip.place_arrive = place_arrive;
+
+	arr_trip_table.splice(i, 0, trip);
+
 	preshow();
 }
 
 function preshow()
 {
-	var total = 0.00;
-	var tripnum = 0;
-	trip_body = '';
-	for(var i = 0; i < arr_trip_body.length; i++)
+	if(arr_trip_table.length == 0) 
 	{
-		tripnum++;
-		total = total.add(Number(arr_amount[i]));
-		trip_body += arr_trip_body[i];
+		document.getElementById("preshow").innerHTML = "";
+		return;
 	}
-	tr_total = '\
-	                <tr>\n\
-	                    <td>\n\
-	                        <table style="padding: 36px 0 40px" cellpadding="0" cellspacing="0">\n\
-	                            <tr>\n\
-	                                <td style="font-size: 40px;font-weight: bold">Hello JESSE</td>\n\
-	                            </tr>\n\
-	                            <tr>\n\
-	                                <td style="padding-top: 28px;font-weight: bold">\n\
-	                                    <span style="font-size: 32px;">Total order amount:</span>\n\
-	                                    <span style="font-size: 44px;color: #FF7226;margin-left: 20px"> MXN$'+total+'</span>\n\
-	                                </td>\n\
-	                            </tr>\n\
-	                            <tr>\n\
-	                                <td style="padding-top: 16px;">\n\
-	                                    <span style="font-size: 28px;">Trip Number:</span>\n\
-	                                    <span style="padding-left: 16px;font-weight: bold;font-size: 32px;font-weight: bold">'+tripnum+'</span>\n\
-	                                </td>\n\
-	                            </tr>\n\
-	                        </table>\n\
-	                    </td>\n\
-	                </tr>\n\
-	';
-	var trip = trip_s + trip_body + trip_e;
+	var mode = (document.getElementById("toggle1").checked == true ? 0 : 1);
+	switch(mode)
+	{
+		case 0:
+		{
+			var receipt = GetReceipt();
+			document.getElementById("preshow").innerHTML=receipt;
+		}
+		break;
 
-	body = tbody_s + tr_didi + tr_total + trip + didi_thanks + tbody_e;
+		case 1:
+		{
+			var table = '\
+<table id="align-table" border="1" style="border-collapse: collapse;">\
+	<tr>\
+		<th bgcolor="#FF0000" style="padding: 2px 1px;text-align:center;">DEL</th>\
+		<th bgcolor="#6495ED"style="padding: 2px 1px;text-align:center">INS</th>\
+		<th>amount</th>\
+		<th>time_start</th>\
+		<th>place_start</th>\
+		<th>time_arrive</th>\
+		<th>place_arrive</th>\
+	</tr>';
 
-	receipt = start + body + end;
-	document.getElementById("preshow").innerHTML=receipt;
+			for(var i in arr_trip_table)
+			{
+				table += '\
+	<tr>\
+		<td style="padding: 2px 1px;text-align:center;"><input style="border-radius:30px;" type="button" name="delete" value="X" onclick="DeleteTrip(' + i +')"></td>\
+		<td style="padding: 2px 1px;text-align:center;"><input style="border-radius:0px;" type="button" name="insert" value="+" onclick="InsertTrip(' + i +')"></td>\
+		<td>' + arr_trip_table[i].amount + '</td>\
+		<td>' + arr_trip_table[i].time_start + '</td>\
+		<td>' + arr_trip_table[i].place_start + '</td>\
+		<td>' + arr_trip_table[i].time_arrive + '</td>\
+		<td>' + arr_trip_table[i].place_arrive + '</td>\
+	</tr>';
+			}
+			table += '\
+</table>';
+			document.getElementById("preshow").innerHTML=table;
+		}
+	}
+	
+	
 }
-    
-function download(filename, text)
+
+function GetReceipt()
 {
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-  element.setAttribute('download', filename);
- 
-  element.style.display = 'none';
-  document.body.appendChild(element);
- 
-  element.click();
- 
-  document.body.removeChild(element);
-}
-
-Date.prototype.Format = function(formatStr)
-{
-    var str = formatStr;
-    var Week = ['日','一','二','三','四','五','六'];
-  
-    str=str.replace(/yyyy|YYYY/,this.getFullYear());
-    str=str.replace(/yy|YY/,(this.getYear() % 100)>9?(this.getYear() % 100).toString():'0' + (this.getYear() % 100));
-  
-    str=str.replace(/MM/,this.getMonth()>=9?(this.getMonth()+1).toString():'0' + (this.getMonth()+1));
-    str=str.replace(/M/g,(this.getMonth()+1));
-  
-    str=str.replace(/w|W/g,Week[this.getDay()]);
-  
-    str=str.replace(/dd|DD/,this.getDate()>9?this.getDate().toString():'0' + this.getDate());
-    str=str.replace(/d|D/g,this.getDate());
-  
-    str=str.replace(/hh|HH/,this.getHours()>9?this.getHours().toString():'0' + this.getHours());
-    str=str.replace(/h|H/g,this.getHours());
-    str=str.replace(/mm/,this.getMinutes()>9?this.getMinutes().toString():'0' + this.getMinutes());
-    str=str.replace(/m/g,this.getMinutes());
-  
-    str=str.replace(/ss|SS/,this.getSeconds()>9?this.getSeconds().toString():'0' + this.getSeconds());
-    str=str.replace(/s|S/g,this.getSeconds());
-  
-    return str;
-}
-function download2()
-{
-    var date = new Date();
-    download('DiDi' + date.Format('YYYYMMDD') +  ".html", receipt);
-}
-
-/**
- ** 加法函数，用来得到精确的加法结果
- ** 说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
- ** 调用：accAdd(arg1,arg2)
- ** 返回值：arg1加上arg2的精确结果
- **/
-function accAdd(arg1, arg2) {
-    var r1, r2, m, c;
-    try {
-        r1 = arg1.toString().split(".")[1].length;
-    }
-    catch (e) {
-        r1 = 0;
-    }
-    try {
-        r2 = arg2.toString().split(".")[1].length;
-    }
-    catch (e) {
-        r2 = 0;
-    }
-    c = Math.abs(r1 - r2);
-    m = Math.pow(10, Math.max(r1, r2));
-    if (c > 0) {
-        var cm = Math.pow(10, c);
-        if (r1 > r2) {
-            arg1 = Number(arg1.toString().replace(".", ""));
-            arg2 = Number(arg2.toString().replace(".", "")) * cm;
-        } else {
-            arg1 = Number(arg1.toString().replace(".", "")) * cm;
-            arg2 = Number(arg2.toString().replace(".", ""));
-        }
-    } else {
-        arg1 = Number(arg1.toString().replace(".", ""));
-        arg2 = Number(arg2.toString().replace(".", ""));
-    }
-    return (arg1 + arg2) / m;
-}
- 
-//给Number类型增加一个add方法，调用起来更加方便。
-Number.prototype.add = function (arg) {
-    return accAdd(arg, this);
-};
-
 var start = '<?xml version="1.0" encoding="UTF-8"?>\n\
 <!DOCTYPE html\n\
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"\n\
@@ -375,8 +437,6 @@ var tbody_e = '\
 
 //trip
 var trip_body = '';
-var arr_trip_body = new Array();
-var arr_amount = new Array();
 
 var trip_s = '\
                 <tr>\n\
@@ -454,6 +514,199 @@ Gateway East, Singapore 189721</td>\n\
 var tr_total = '';
 var receipt = '';
 
+var total = 0.00;
+var tripnum = 0;
+trip_body = '';
+for(var i = 0; i < arr_trip_table.length; i++)
+{
+	tripnum++;
+	total = total.add(Number(arr_trip_table[i].amount));
+
+	var tmpbody = '\
+	            <tr>\n\
+	                <td style="font-size: 32px;font-weight: bold;padding-top: 40px">Order Amount:  MXN$'+arr_trip_table[i].amount+'</td>\n\
+	            </tr>\n\
+	            <tr>\n\
+	                <td style="font-size: 26px;font-weight: bold;padding-top: 10px"></td>\n\
+	            </tr>\n\
+	            <tr>\n\
+	                <td style="font-size: 26px"></td>\n\
+	            </tr>\n\
+	            <tr>\n\
+	                <td style="font-size: 26px;color: #999999;padding-top: 20px">\n\
+	                <!--出发时间-->\n\
+	                '+arr_trip_table[i].time_start+'\n\
+	                </td>\n\
+	            </tr>\n\
+	            <tr>\n\
+	                <td>\n\
+	                    <table cellpadding="0" cellspacing="0" style="padding-top: 10px;">\n\
+	                        <tr>\n\
+	                            <td>\n\
+	                                <span style="width: 12px;height: 12px;background: #00D0AD;border-radius: 100%;display: inline-block"></span>\n\
+	                            </td>\n\
+	                            <td style="font-size: 26px;padding-left: 14px">\n\
+	                                From: '+place[arr_trip_table[i].place_start]+'\n\
+	                            </td>\n\
+	                        </tr>\n\
+	                    </table>\n\
+	                </td>\n\
+	            \n\
+	            </tr>\n\
+	            <tr>\n\
+	                <td style="font-size: 26px;color: #999999;padding-top: 10px">\n\
+	                <!--到达时间-->\n\
+	                '+arr_trip_table[i].time_arrive+'\n\
+	                </td>\n\
+	            </tr>\n\
+	            <tr>\n\
+	                <td>\n\
+	                    <table cellpadding="0" cellspacing="0" style="padding-top: 10px;">\n\
+	                        <tr>\n\
+	                            <td>\n\
+	                                <span style="width: 12px;height: 12px;background: #FF7733;border-radius: 100%;display: inline-block"></span>\n\
+	                            </td>\n\
+	                            <td style="font-size: 26px;padding-left: 14px">\n\
+	                                To: '+place[arr_trip_table[i].place_arrive]+'\n\
+	                            </td>\n\
+	                        </tr>\n\
+	                    </table>\n\
+	                </td>\n\
+	            </tr>\n\
+	';
+	trip_body += tmpbody;
+}
+tr_total = '\
+                <tr>\n\
+                    <td>\n\
+                        <table style="padding: 36px 0 40px" cellpadding="0" cellspacing="0">\n\
+                            <tr>\n\
+                                <td style="font-size: 40px;font-weight: bold">Hello JESSE</td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                                <td style="padding-top: 28px;font-weight: bold">\n\
+                                    <span style="font-size: 32px;">Total order amount:</span>\n\
+                                    <span style="font-size: 44px;color: #FF7226;margin-left: 20px"> MXN$'+total+'</span>\n\
+                                </td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                                <td style="padding-top: 16px;">\n\
+                                    <span style="font-size: 28px;">Trip Number:</span>\n\
+                                    <span style="padding-left: 16px;font-weight: bold;font-size: 32px;font-weight: bold">'+tripnum+'</span>\n\
+                                </td>\n\
+                            </tr>\n\
+                        </table>\n\
+                    </td>\n\
+                </tr>\n\
+';
+var trip = trip_s + trip_body + trip_e;
+
+body = tbody_s + tr_didi + tr_total + trip + didi_thanks + tbody_e;
+
+receipt = start + body + end;
+
+return receipt;
+}
+    
+function download(filename, text)
+{
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+ 
+  element.style.display = 'none';
+  document.body.appendChild(element);
+ 
+  element.click();
+ 
+  document.body.removeChild(element);
+}
+
+Date.prototype.Format = function(formatStr)
+{
+    var str = formatStr;
+    var Week = ['日','一','二','三','四','五','六'];
+  
+    str=str.replace(/yyyy|YYYY/,this.getFullYear());
+    str=str.replace(/yy|YY/,(this.getYear() % 100)>9?(this.getYear() % 100).toString():'0' + (this.getYear() % 100));
+  
+    str=str.replace(/MM/,this.getMonth()>=9?(this.getMonth()+1).toString():'0' + (this.getMonth()+1));
+    str=str.replace(/M/g,(this.getMonth()+1));
+  
+    str=str.replace(/w|W/g,Week[this.getDay()]);
+  
+    str=str.replace(/dd|DD/,this.getDate()>9?this.getDate().toString():'0' + this.getDate());
+    str=str.replace(/d|D/g,this.getDate());
+  
+    str=str.replace(/hh|HH/,this.getHours()>9?this.getHours().toString():'0' + this.getHours());
+    str=str.replace(/h|H/g,this.getHours());
+    str=str.replace(/mm/,this.getMinutes()>9?this.getMinutes().toString():'0' + this.getMinutes());
+    str=str.replace(/m/g,this.getMinutes());
+  
+    str=str.replace(/ss|SS/,this.getSeconds()>9?this.getSeconds().toString():'0' + this.getSeconds());
+    str=str.replace(/s|S/g,this.getSeconds());
+  
+    return str;
+}
+function download2()
+{
+    var date = new Date();
+    var receipt = GetReceipt();
+    download('DiDi' + date.Format('YYYYMMDD') +  ".html", receipt);
+}
+
+/**
+ ** 加法函数，用来得到精确的加法结果
+ ** 说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
+ ** 调用：accAdd(arg1,arg2)
+ ** 返回值：arg1加上arg2的精确结果
+ **/
+function accAdd(arg1, arg2) {
+    var r1, r2, m, c;
+    try {
+        r1 = arg1.toString().split(".")[1].length;
+    }
+    catch (e) {
+        r1 = 0;
+    }
+    try {
+        r2 = arg2.toString().split(".")[1].length;
+    }
+    catch (e) {
+        r2 = 0;
+    }
+    c = Math.abs(r1 - r2);
+    m = Math.pow(10, Math.max(r1, r2));
+    if (c > 0) {
+        var cm = Math.pow(10, c);
+        if (r1 > r2) {
+            arg1 = Number(arg1.toString().replace(".", ""));
+            arg2 = Number(arg2.toString().replace(".", "")) * cm;
+        } else {
+            arg1 = Number(arg1.toString().replace(".", "")) * cm;
+            arg2 = Number(arg2.toString().replace(".", ""));
+        }
+    } else {
+        arg1 = Number(arg1.toString().replace(".", ""));
+        arg2 = Number(arg2.toString().replace(".", ""));
+    }
+    return (arg1 + arg2) / m;
+}
+ 
+//给Number类型增加一个add方法，调用起来更加方便。
+Number.prototype.add = function (arg) {
+    return accAdd(arg, this);
+};
+
+function if_preview()
+{
+	preshow();
+}
+
+var arr_trip_table = new Array();
+
 </script>
 </body>
+<meta name="release" content="
+v2.0: generate table list to insert/delete">
 </html>
