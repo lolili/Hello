@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+    <title>Receipt</title>
+    <link href="https://cdn.bootcss.com/jquery-datetimepicker/2.5.17/jquery.datetimepicker.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-datetimepicker/2.5.17/jquery.datetimepicker.full.min.js"></script>
+
+</head>
+<body style="margin: 0; padding: 0;">
+    <br>
+    <input type='button' value='download' onClick='download2()' >
+	
+	<br><br>
+	<h2>ADD TRIP</h2>
+<table>
+	<td><input type='button' value='random' onClick='random()'></td>
+	<tr>
+		<td>Order Amount:</td>
+		<td><input type='text' id='amount' value='100.71'></td>
+	</tr>
+	<tr>
+		<td>Time Start:</td>
+		<td><input type='text' id='time_start' ></td>
+	</tr>
+	<tr>
+		<td>Place Start:</td>
+		<td>
+			<select id='place_start'>
+				<option value='home'>HOME</option>
+				<option value='office'>OFFICE</option>
+				<option value='gsi'>GSI</option>
+				<option value='bienestar'>Bienestar</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Time Arrive:</td>
+		<td><input type='text' id='time_arrive' ></td>
+	</tr>
+	<tr>
+		<td>Place Arrive:</td>
+		<td>
+			<select id='place_arrive'>
+				<option value='home'>HOME</option>
+				<option value='office'>OFFICE</option>
+				<option value='gsi'>GSI</option>
+				<option value='bienestar'>Bienestar</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td align=''><input type='button' value='add to Trip' onClick='AddTrip()' ></td>
+		<td align=''><input type='button' value='reduce one Trip' onClick='ReduceTrip()' ></td>
+	</tr>
+</table>
+
+
+<div id='preshow' style='position:absolute; left:500px; top:10px; border:1px solid #000'>
+
+<script type="text/javascript">
+	var time_start_m = 0;
+	
+var parserDate = function (date) {  
+    var t = Date.parse(date);  
+    if (!isNaN(t)) {  
+        return new Date(Date.parse(date.replace(/-/g, "/")));  
+    } else {  
+        return new Date();  
+    }  
+};
+function random()
+{
+	document.getElementById("amount").value = randomNum(120.12, 180.08,0);
+	
+	time_start_m = randomNum(10,59,1);
+	$(function() {
+	    $("#time_start").datetimepicker({format:'d/m/Y H:'+ time_start_m});
+	  });
+    var cost_time = randomNum(25,35,1);
+    var time_arrive_m = time_start_m + cost_time;
+	$(function() {
+	    $("#time_arrive").datetimepicker({format:'d/m/Y H:i'});
+	  });
+
+}
+
+function randomNum(minNum,maxNum,isInt){ 
+	if(isInt==1)
+	{
+		return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10);
+	}
+	else
+	{
+		return (Math.random()*(maxNum-minNum+1)+minNum).toFixed(2);
+	}
+}
+
+function AddTrip()
+{
+	var place_home = 'Av. Río San Joaquín 12, Lomas de Sotelo, Miguel Hidalgo, 11200 Ciudad de México, CDMX, Mexico';
+	var place_office = 'Nte. 31-A 36, Lindavista Vallejo III Secc, Gustavo A. Madero, 07720 Ciudad de México, CDMX, Mexico';
+	var place_gsi = 'Priv. Rancho de La Cruz 98, Jamaica, Venustiano Carranza, 15800 Ciudad de México, CDMX, Mexico';
+	var place_bienestar = 'Tizapán San Ángel, Progreso Tizapán, 01090  Ciudad de México';
+
+	var place = [];
+	place['home'] = place_home;
+	place['office'] = place_office;
+	place['gsi'] = place_gsi;
+	place['bienestar'] = place_bienestar;
+	
+	var amount = document.getElementById("amount").value;
+	var time_start = document.getElementById("time_start").value;
+	var place_start = place[document.getElementById("place_start").value];
+	var time_arrive = document.getElementById("time_arrive").value;
+	var place_arrive = place[document.getElementById("place_arrive").value];
+	
+	// alert('add:' + amount);
+	// alert('this is ' + tripnum + ' trip');
+	// alert('total amount:' + total);
+	
+	var tmpbody = '\
+	            <tr>\n\
+	                <td style="font-size: 32px;font-weight: bold;padding-top: 40px">Order Amount:  MXN$'+amount+'</td>\n\
+	            </tr>\n\
+	            <tr>\n\
+	                <td style="font-size: 26px;font-weight: bold;padding-top: 10px"></td>\n\
+	            </tr>\n\
+	            <tr>\n\
+	                <td style="font-size: 26px"></td>\n\
+	            </tr>\n\
+	            <tr>\n\
+	                <td style="font-size: 26px;color: #999999;padding-top: 20px">\n\
+	                <!--出发时间-->\n\
+	                '+time_start+'\n\
+	                </td>\n\
+	            </tr>\n\
+	            <tr>\n\
+	                <td>\n\
+	                    <table cellpadding="0" cellspacing="0" style="padding-top: 10px;">\n\
+	                        <tr>\n\
+	                            <td>\n\
+	                                <span style="width: 12px;height: 12px;background: #00D0AD;border-radius: 100%;display: inline-block"></span>\n\
+	                            </td>\n\
+	                            <td style="font-size: 26px;padding-left: 14px">\n\
+	                                From: '+place_start+'\n\
+	                            </td>\n\
+	                        </tr>\n\
+	                    </table>\n\
+	                </td>\n\
+	            \n\
+	            </tr>\n\
+	            <tr>\n\
+	                <td style="font-size: 26px;color: #999999;padding-top: 10px">\n\
+	                <!--到达时间-->\n\
+	                '+time_arrive+'\n\
+	                </td>\n\
+	            </tr>\n\
+	            <tr>\n\
+	                <td>\n\
+	                    <table cellpadding="0" cellspacing="0" style="padding-top: 10px;">\n\
+	                        <tr>\n\
+	                            <td>\n\
+	                                <span style="width: 12px;height: 12px;background: #FF7733;border-radius: 100%;display: inline-block"></span>\n\
+	                            </td>\n\
+	                            <td style="font-size: 26px;padding-left: 14px">\n\
+	                                To: '+place_arrive+'\n\
+	                            </td>\n\
+	                        </tr>\n\
+	                    </table>\n\
+	                </td>\n\
+	            </tr>\n\
+	';
+	arr_trip_body[arr_trip_body.length] = tmpbody;
+	arr_amount [arr_amount.length] = amount;
+	preshow();
+}
+
+function ReduceTrip()
+{
+	arr_trip_body.pop();
+	arr_amount.pop();
+	preshow();
+}
+
+function preshow()
+{
+	var total = 0.00;
+	var tripnum = 0;
+	trip_body = '';
+	for(var i = 0; i < arr_trip_body.length; i++)
+	{
+		tripnum++;
+		total = total.add(Number(arr_amount[i]));
+		trip_body += arr_trip_body[i];
+	}
+	tr_total = '\
+	                <tr>\n\
+	                    <td>\n\
+	                        <table style="padding: 36px 0 40px" cellpadding="0" cellspacing="0">\n\
+	                            <tr>\n\
+	                                <td style="font-size: 40px;font-weight: bold">Hello JESSE</td>\n\
+	                            </tr>\n\
+	                            <tr>\n\
+	                                <td style="padding-top: 28px;font-weight: bold">\n\
+	                                    <span style="font-size: 32px;">Total order amount:</span>\n\
+	                                    <span style="font-size: 44px;color: #FF7226;margin-left: 20px"> MXN$'+total+'</span>\n\
+	                                </td>\n\
+	                            </tr>\n\
+	                            <tr>\n\
+	                                <td style="padding-top: 16px;">\n\
+	                                    <span style="font-size: 28px;">Trip Number:</span>\n\
+	                                    <span style="padding-left: 16px;font-weight: bold;font-size: 32px;font-weight: bold">'+tripnum+'</span>\n\
+	                                </td>\n\
+	                            </tr>\n\
+	                        </table>\n\
+	                    </td>\n\
+	                </tr>\n\
+	';
+	var trip = trip_s + trip_body + trip_e;
+
+	body = tbody_s + tr_didi + tr_total + trip + didi_thanks + tbody_e;
+
+	receipt = start + body + end;
+	document.getElementById("preshow").innerHTML=receipt;
+}
+    
+function download(filename, text)
+{
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+ 
+  element.style.display = 'none';
+  document.body.appendChild(element);
+ 
+  element.click();
+ 
+  document.body.removeChild(element);
+}
+
+Date.prototype.Format = function(formatStr)
+{
+    var str = formatStr;
+    var Week = ['日','一','二','三','四','五','六'];
+  
+    str=str.replace(/yyyy|YYYY/,this.getFullYear());
+    str=str.replace(/yy|YY/,(this.getYear() % 100)>9?(this.getYear() % 100).toString():'0' + (this.getYear() % 100));
+  
+    str=str.replace(/MM/,this.getMonth()>=9?(this.getMonth()+1).toString():'0' + (this.getMonth()+1));
+    str=str.replace(/M/g,(this.getMonth()+1));
+  
+    str=str.replace(/w|W/g,Week[this.getDay()]);
+  
+    str=str.replace(/dd|DD/,this.getDate()>9?this.getDate().toString():'0' + this.getDate());
+    str=str.replace(/d|D/g,this.getDate());
+  
+    str=str.replace(/hh|HH/,this.getHours()>9?this.getHours().toString():'0' + this.getHours());
+    str=str.replace(/h|H/g,this.getHours());
+    str=str.replace(/mm/,this.getMinutes()>9?this.getMinutes().toString():'0' + this.getMinutes());
+    str=str.replace(/m/g,this.getMinutes());
+  
+    str=str.replace(/ss|SS/,this.getSeconds()>9?this.getSeconds().toString():'0' + this.getSeconds());
+    str=str.replace(/s|S/g,this.getSeconds());
+  
+    return str;
+}
+function download2()
+{
+    var date = new Date();
+    download('DiDi' + date.Format('YYYYMMDD') +  ".html", receipt);
+}
+
+/**
+ ** 加法函数，用来得到精确的加法结果
+ ** 说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
+ ** 调用：accAdd(arg1,arg2)
+ ** 返回值：arg1加上arg2的精确结果
+ **/
+function accAdd(arg1, arg2) {
+    var r1, r2, m, c;
+    try {
+        r1 = arg1.toString().split(".")[1].length;
+    }
+    catch (e) {
+        r1 = 0;
+    }
+    try {
+        r2 = arg2.toString().split(".")[1].length;
+    }
+    catch (e) {
+        r2 = 0;
+    }
+    c = Math.abs(r1 - r2);
+    m = Math.pow(10, Math.max(r1, r2));
+    if (c > 0) {
+        var cm = Math.pow(10, c);
+        if (r1 > r2) {
+            arg1 = Number(arg1.toString().replace(".", ""));
+            arg2 = Number(arg2.toString().replace(".", "")) * cm;
+        } else {
+            arg1 = Number(arg1.toString().replace(".", "")) * cm;
+            arg2 = Number(arg2.toString().replace(".", ""));
+        }
+    } else {
+        arg1 = Number(arg1.toString().replace(".", ""));
+        arg2 = Number(arg2.toString().replace(".", ""));
+    }
+    return (arg1 + arg2) / m;
+}
+ 
+//给Number类型增加一个add方法，调用起来更加方便。
+Number.prototype.add = function (arg) {
+    return accAdd(arg, this);
+};
+
+var start = '<?xml version="1.0" encoding="UTF-8"?>\n\
+<!DOCTYPE html\n\
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"\n\
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\n\
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">\n\
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\n\
+<head>\n\
+    <title>Receipt</title>\n\
+</head>\n\
+<body style="margin: 0; padding: 0;">\n\
+';
+var end = '</body>\n\
+</html>\n\
+';
+
+var body = '';
+
+var tbody_s = '\
+<table cellpadding="0" cellspacing="0" width="100%" style="padding: 24px 36px">\n\
+    <tbody>\n\
+    <tr>\n\
+        <td>\n\
+            <table align="center" cellpadding="0" cellspacing="0" width="800" style="border-collapse: collapse;">\n\
+                <tbody>\n\
+';
+var tr_didi = '\
+                <tr>\n\
+                    <td>\n\
+                        <table style="padding: 17px 0 30px" cellpadding="0" cellspacing="0">\n\
+                            <tr>\n\
+                                <td>\n\
+                                    <img src="https://pt-starimg.didistatic.com/static/starimg/img/1515564055216fbtUSN2gUZIkEVfOzfc.png" style="width: 60px;height: 48px;" alt=""/>\n\
+                                </td>\n\
+                                <td>\n\
+                                    <span style="font-size: 28px;color: #999999;margin-left: 27px">Thanks to use DiDi</span>\n\
+                                </td>\n\
+                            </tr>\n\
+                        </table>\n\
+                    </td>\n\
+                </tr>\n\
+                <tr>\n\
+                    <td>\n\
+                        <span style="border-top: 1px solid #E1E2E6;display:block;"></span>\n\
+                    </td>\n\
+                </tr>\n\
+';
+var tbody_e = '\
+                </tbody>\n\
+            </table>\n\
+        </td>\n\
+    </tr>\n\
+    </tbody>\n\
+</table>\n\
+';
+
+//trip
+var trip_body = '';
+var arr_trip_body = new Array();
+var arr_amount = new Array();
+
+var trip_s = '\
+                <tr>\n\
+                    <td>\n\
+                        <span style="border-top: 1px solid #E1E2E6;display:block;"></span>\n\
+                    </td>\n\
+                </tr>\n\
+                <tr>\n\
+                    <td>\n\
+                        <table style="padding-bottom: 40px" cellpadding="0" cellspacing="0">\n\
+                            <!-- 订单列表 -->\n\
+';
+ var trip_e = '\
+                        </table>\n\
+                    </td>\n\
+                </tr>\n\
+';
+
+var didi_thanks = '\
+                <tr style="display:none">\n\
+                    <td>\n\
+                        <span style="border-top: 1px solid #E1E2E6;display:block;"></span>\n\
+                    </td>\n\
+                </tr>\n\
+                <tr style="display:none">\n\
+                    <td>\n\
+                        <table style="padding: 40px 0" cellpadding="0" cellspacing="0">\n\
+                            <tr>\n\
+                                <td style="font-size:24px;">place_holder_notice_title</td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                                <td style="font-size:20px;">place_holder_notice_msg1</td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                                <td style="font-size:20px;">place_holder_notice_msg2</td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                                <td style="font-size:20px;">place_holder_notice_msg3</td>\n\
+                            </tr>\n\
+                        </table>\n\
+                    </td>\n\
+                </tr>\n\
+                <tr>\n\
+                    <td>\n\
+                        <span style="border-top: 1px solid #E1E2E6;display:block;"></span>\n\
+                    </td>\n\
+                </tr>\n\
+                <tr>\n\
+                    <td>\n\
+                        <table style="padding: 40px 0" cellpadding="0" cellspacing="0">\n\
+                            <tr>\n\
+                                <td style="font-size: 28px;font-weight: bold">Contact DiDi</td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                                <td style="font-size: 22px;color: #999999;padding-top: 10px">Please contact us if you have any questions.</td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                                <td style="padding-top: 10px;font-size: 22px;color: #999999;">Email: didireceipts@didiglobal.com</td>\n\
+                            </tr>\n\
+                        </table>\n\
+                    </td>\n\
+                </tr>\n\
+                <tr>\n\
+                    <td>\n\
+                        <table style="padding: 50px 0 20px;width: 100%;" cellpadding="0" cellspacing="0">\n\
+                            <tr>\n\
+                                <td style="text-align:center; padding-top: 10px;font-size: 22px;color: #c2c2c2;">DiDi Mobility Information Technology Pte. Ltd. 152 Beach Road, #14-02,\n\
+Gateway East, Singapore 189721</td>\n\
+                            </tr>\n\
+                        </table>\n\
+                    </td>\n\
+                </tr>\n\
+';
+
+var tr_total = '';
+var receipt = '';
+
+</script>
+</body>
+</html>
