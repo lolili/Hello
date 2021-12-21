@@ -4,9 +4,9 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <meta name="author" content="lolili">
-<meta name="version" content="2.0">
+<meta name="version" content="2.1">
 <meta name="description" content="DiDi receipt editor, support to edit items for each trip,
-and add/remove any trip wherever the position in whole receipt is.">
+and add/remove any trip.">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <head>
     <title>AutoTrip</title>
@@ -161,13 +161,23 @@ strong {
 </style>
 <style type="text/css">.insert:before{content: "+";}</style>
 
+<!--start of page -->
 <body style="margin: 0; padding: 0;">
     <br>
 <div class="area" style="cursor: default;">
 	<a class="button" onClick='download2()'>
-   		<i class="fa fa-cloud-download"> </i>
+   		<i class="fa  fa-download"> </i>
    		<Strong style="color: goldenrod">Download</Strong>
    	</a>
+   	<a class="button" onClick='save()'>
+   		<i class="fa fa-cloud-download"> </i>
+   		<Strong style="color: goldenrod">Save</Strong>
+   	</a>
+   	<a class="button" onClick='load()'>
+   		<i class="fa fa-cloud-upload"> </i>
+   		<Strong style="color: goldenrod">Load</Strong>
+   	</a>
+   	 <input type="file" id="input_file" style="display: none;"/>
 
    	<label for="toggle1" class="toggle1">
   		<input type="checkbox" id="toggle1" class="toggle1-input" onclick="if_preview()">
@@ -283,7 +293,7 @@ function AddTrip()
 	// alert('total amount:' + total);
 	
 	var len = arr_trip_table.length;
-	arr_trip_table[len] = {};
+	arr_trip_table[len] = CreateObjectForArrTrip();
 	arr_trip_table[len].amount = amount;
 	arr_trip_table[len].time_start = time_start;
 	arr_trip_table[len].place_start = place_start;
@@ -313,7 +323,7 @@ function InsertTrip(i)
 	var time_arrive = document.getElementById("time_arrive").value;
 	var place_arrive = document.getElementById("place_arrive").value;
 	
-	var trip = {};
+	var trip = CreateObjectForArrTrip();
 	trip.amount = amount;
 	trip.time_start = time_start;
 	trip.place_start = place_start;
@@ -703,10 +713,68 @@ function if_preview()
 	preshow();
 }
 
-var arr_trip_table = new Array();
+function save()
+{
+	var data = JSON.stringify(arr_trip_table);
+	download('tmpTrip.dat', data);
+}
 
+function load()
+{
+	document.getElementById('input_file').click();
+}
+
+
+function upload() 
+{
+    var file = this.files[0];
+    var reader = new FileReader();
+    if(!/\.dat$/.test(file.name)){
+        alert("Please make sure to select .dat file!");
+        input_file.value = '';
+        return false;
+    }
+    reader.readAsText(file);
+    reader.onload = function(ev) {
+    	if(arr_trip_table.length != 0)
+    	{
+    		if(!confirm("You already add some trip, are you sure to reload the old data?"))
+    		{
+    			return;
+    		}
+    	}
+    	arr_trip_table = JSON.parse(this.result);
+    	preshow();
+    }
+    input_file.value = '';
+    return true;
+}
+
+	var input_file=document.getElementById("input_file");
+    if (window.FileReader) 
+    {
+        input_file.addEventListener("change",upload,false);
+    } 
+    else
+    {
+        alert("This browser doesn't support!");
+    }
+
+	var arr_trip_table = new Array();
+
+function CreateObjectForArrTrip()
+{
+	var dic_trip = {};
+	dic_trip.amount = '';
+	dic_trip.time_start = '';
+	dic_trip.place_start = '';
+	dic_trip.time_arrive = '';
+	dic_trip.place_arrive = '';
+	return dic_trip;
+}
 </script>
 </body>
 <meta name="release" content="
-v2.0: generate table list to insert/delete">
+v2.0: generate table list to insert/delete
+v2.1: support to save temporary data">
 </html>
