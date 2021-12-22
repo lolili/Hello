@@ -119,12 +119,12 @@ strong {
 <!-- button -->
 <style>
 .Button { 
-	cursor: pointer;width: 50px; height: 50px; border-radius: 25px; 
-	background: none; transition: width .5s ease; color:#000; border: 4px solid 
-	#000; position: relative; padding-left: 30px; color: #000; overflow: hidden; text-align: center;
+    cursor: pointer;width: 50px; height: 50px; border-radius: 25px; 
+    background: none; transition: width .5s ease; color:#000; border: 4px solid 
+    #000; position: relative; padding-left: 30px; color: #000; overflow: hidden; text-align: center;
 }
 .Button span { 
-	white-space: nowrap; transition: all ease .3s; opacity: 0; font-size: 16px; line-height: 20px; transition: all ease .3s;
+    white-space: nowrap; transition: all ease .3s; opacity: 0; font-size: 16px; line-height: 20px; transition: all ease .3s;
 }
 .Button:after { 
     font-size: 2.6em;
@@ -138,26 +138,26 @@ strong {
 .Button:hover span{ opacity: 1; transition-delay:.3s;  transition: all ease .3s; }
 </style>
 <style type="text/css">
-	.btn {
-		background-color: rgba(0, 180, 100, 1);
-		border: rgba(0, 180, 100, 1) 1px, solid;
-		outline: none;
-		cursor: pointer;
-		padding: 14px 20px;
-		color: rgba(255, 255, 255, 1.0);
-		text-align: center;
-		font-size: 16px;
-		margin: 10px;
- 	}
- 	.cir {
- 		padding: 13px 25px;
- 		border-radius: 30px;
- 		box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.3);
- 		background: -webkit-linear-gradient(bottom, rgba(0, 180, 100, 0.2), rgba(0, 180, 100, 1), rgba(0, 200, 100, 1));
- 		background: -o-linear-gradient(bottom, rgba(0, 180, 100, 0.2), rgba(0, 180, 100, 1), rgba(0, 200, 100, 1));
- 		background: -moz-linear-gradient(bottom, rgba(0, 180, 100, 0.2), rgba(0, 180, 100, 1), rgba(0, 200, 100, 1));
- 		background: linear-gradient(to bottom, rgba(0, 180, 100, 0.2), rgba(0, 180, 100, 1), rgba(0, 200, 100, 1));
- 	}
+    .btn {
+        background-color: rgba(0, 180, 100, 1);
+        border: rgba(0, 180, 100, 1) 1px, solid;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 20px;
+        color: rgba(255, 255, 255, 1.0);
+        text-align: center;
+        font-size: 16px;
+        margin: 10px;
+    }
+    .cir {
+        padding: 13px 25px;
+        border-radius: 30px;
+        box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.3);
+        background: -webkit-linear-gradient(bottom, rgba(0, 180, 100, 0.2), rgba(0, 180, 100, 1), rgba(0, 200, 100, 1));
+        background: -o-linear-gradient(bottom, rgba(0, 180, 100, 0.2), rgba(0, 180, 100, 1), rgba(0, 200, 100, 1));
+        background: -moz-linear-gradient(bottom, rgba(0, 180, 100, 0.2), rgba(0, 180, 100, 1), rgba(0, 200, 100, 1));
+        background: linear-gradient(to bottom, rgba(0, 180, 100, 0.2), rgba(0, 180, 100, 1), rgba(0, 200, 100, 1));
+    }
 </style>
 <style type="text/css">.insert:before{content: "+";}</style>
 
@@ -165,85 +165,84 @@ strong {
 <body style="margin: 0; padding: 0;">
     <br>
 <div class="area" style="cursor: default;">
-	<a class="button" onClick='download2()'>
-   		<i class="fa  fa-download"> </i>
-   		<Strong style="color: goldenrod">Download</Strong>
-   	</a>
-   	<a class="button" onClick='save()'>
-   		<i class="fa fa-cloud-download"> </i>
-   		<Strong style="color: goldenrod">Save</Strong>
-   	</a>
-   	<a class="button" onClick='load()'>
-   		<i class="fa fa-cloud-upload"> </i>
-   		<Strong style="color: goldenrod">Load</Strong>
-   	</a>
-   	 <input type="file" id="input_file" style="display: none;"/>
+    <a class="button" onClick='download2()'>
+        <i class="fa  fa-download"> </i>
+        <Strong style="color: goldenrod">Download</Strong>
+    </a>
+    <a class="button" onClick='save()'>
+        <i class="fa fa-cloud-download"> </i>
+        <Strong style="color: goldenrod">Save</Strong>
+    </a>
+    <a class="button" onClick='load()'>
+        <i class="fa fa-cloud-upload"> </i>
+        <Strong style="color: goldenrod">Load</Strong>
+    </a>
+     <input type="file" id="input_file" style="display: none;"/>
 
-   	<label for="toggle1" class="toggle1">
-  		<input type="checkbox" id="toggle1" class="toggle1-input" onclick="if_preview()">
-  		<span class="toggle1-button"></span>
-	</label>
+    <label for="toggle1" class="toggle1">
+        <input type="checkbox" id="toggle1" class="toggle1-input" onclick="if_preview()">
+        <span class="toggle1-button"></span>
+    </label>
 
-	<h2 style="width: 383.92px;text-align: center; font-style: italic;">ADD TRIP</h2>
-	<table id="align-table">
-		<button class="btn cir" onClick='random()'>Random</button>
-		<tr>
-			<td>Order Amount:</td>
-			<td><input type='text' id='amount' value='100.71'></td>
-		</tr>
-		<tr>
-			<td>Time Start:</td>
-			<td><input type='text' id='time_start' ></td>
-		</tr>
-		<tr>
-			<td>Place Start:</td>
-			<td>
-				<select id='place_start'>
-					<option value='home'>HOME</option>
-					<option value='office'>OFFICE</option>
-					<option value='gsi'>GSI</option>
-					<option value='bienestar'>Bienestar</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>Time Arrive:</td>
-			<td><input type='text' id='time_arrive' ></td>
-		</tr>
-		<tr>
-			<td>Place Arrive:</td>
-			<td>
-				<select id='place_arrive'>
-					<option value='home'>HOME</option>
-					<option value='office'>OFFICE</option>
-					<option value='gsi'>GSI</option>
-					<option value='bienestar'>Bienestar</option>
-				</select>
-			</td>
-		</tr>
-	</table>
-	<div style="text-align: center;">
-	<button class="Button Button-sub" style="border-right: 100px;" onClick='ReduceTrip()' ><span>Reduce Trip</span></button>
-	<button class="Button Button-plus" style="border-left: 100px;" onClick='AddTrip()' ><span>Add to Trip</span></button>
-	</div>
+    <h2 style="width: 383.92px;text-align: center; font-style: italic;">ADD TRIP</h2>
+    <table id="align-table">
+        <button class="btn cir" onClick='random()'>Random</button>
+        <tr>
+            <td>Order Amount:</td>
+            <td><input type='text' id='amount' value='100.71'></td>
+        </tr>
+        <tr>
+            <td>Time Start:</td>
+            <td><input type='text' id='time_start' ></td>
+        </tr>
+        <tr>
+            <td>Place Start:</td>
+            <td>
+                <select id='place_start'>
+                    <option value='home'>HOME</option>
+                    <option value='office'>OFFICE</option>
+                    <option value='gsi'>GSI</option>
+                    <option value='bienestar'>Bienestar</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Time Arrive:</td>
+            <td><input type='text' id='time_arrive' ></td>
+        </tr>
+        <tr>
+            <td>Place Arrive:</td>
+            <td>
+                <select id='place_arrive'>
+                    <option value='home'>HOME</option>
+                    <option value='office'>OFFICE</option>
+                    <option value='gsi'>GSI</option>
+                    <option value='bienestar'>Bienestar</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <div style="text-align: center;">
+    <button class="Button Button-sub" style="border-right: 100px;" onClick='ReduceTrip()' ><span>Reduce Trip</span></button>
+    <button class="Button Button-plus" style="border-left: 100px;" onClick='AddTrip()' ><span>Add to Trip</span></button>
+    </div>
 </div>
 
 <div id='preshow' style='position:absolute; left:500px; top:10px; border:1px solid #000'>
 
 <script type="text/javascript">
 
-	var place_home = 'Av. Río San Joaquín 12, Lomas de Sotelo, Miguel Hidalgo, 11200 Ciudad de México, CDMX, Mexico';
-	var place_office = 'Nte. 31-A 36, Lindavista Vallejo III Secc, Gustavo A. Madero, 07720 Ciudad de México, CDMX, Mexico';
-	var place_gsi = 'Priv. Rancho de La Cruz 98, Jamaica, Venustiano Carranza, 15800 Ciudad de México, CDMX, Mexico';
-	var place_bienestar = 'Tizapán San Ángel, Progreso Tizapán, 01090  Ciudad de México';
+    var place_home = 'Av. Río San Joaquín 12, Lomas de Sotelo, Miguel Hidalgo, 11200 Ciudad de México, CDMX, Mexico';
+    var place_office = 'Nte. 31-A 36, Lindavista Vallejo III Secc, Gustavo A. Madero, 07720 Ciudad de México, CDMX, Mexico';
+    var place_gsi = 'Priv. Rancho de La Cruz 98, Jamaica, Venustiano Carranza, 15800 Ciudad de México, CDMX, Mexico';
+    var place_bienestar = 'Tizapán San Ángel, Progreso Tizapán, 01090  Ciudad de México';
 
-	var place = [];
-	place['home'] = place_home;
-	place['office'] = place_office;
-	place['gsi'] = place_gsi;
-	place['bienestar'] = place_bienestar;
+    var place = [];
+    place['home'] = place_home;
+    place['office'] = place_office;
+    place['gsi'] = place_gsi;
+    place['bienestar'] = place_bienestar;
 
-	
 var parserDate = function (date) {  
     var t = Date.parse(date);  
     if (!isNaN(t)) {  
@@ -254,138 +253,135 @@ var parserDate = function (date) {
 };
 function random()
 {
-	document.getElementById("amount").value = randomNum(120.12, 180.08,0);
-	
-	var time_start_m = randomNum(10,59,1);
-	$(function() {
-	    $("#time_start").datetimepicker({format:'d/m/Y H:'+ time_start_m});
-	  });
+    document.getElementById("amount").value = randomNum(120.12, 180.08,0);
+
+    var time_start_m = randomNum(10,59,1);
+    $(function() {
+        $("#time_start").datetimepicker({format:'d/m/Y H:'+ time_start_m});
+      });
     var cost_time = randomNum(25,35,1);
     var time_arrive_m = time_start_m + cost_time;
-	$(function() {
-	    $("#time_arrive").datetimepicker({format:'d/m/Y H:i'});
-	  });
+    $(function() {
+        $("#time_arrive").datetimepicker({format:'d/m/Y H:i'});
+      });
 
 }
 
 function randomNum(minNum,maxNum,isInt){ 
-	if(isInt==1)
-	{
-		return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10);
-	}
-	else
-	{
-		return (Math.random()*(maxNum-minNum+1)+minNum).toFixed(2);
-	}
+    if(isInt==1)
+    {
+    	return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10);
+    }
+    else
+    {
+    	return (Math.random()*(maxNum-minNum+1)+minNum).toFixed(2);
+    }
 }
 
 function AddTrip()
 {
-	
-	var amount = document.getElementById("amount").value;
-	var time_start = document.getElementById("time_start").value;
-	var place_start = document.getElementById("place_start").value;
-	var time_arrive = document.getElementById("time_arrive").value;
-	var place_arrive = document.getElementById("place_arrive").value;
-	
-	// alert('add:' + amount);
-	// alert('this is ' + tripnum + ' trip');
-	// alert('total amount:' + total);
-	
-	var len = arr_trip_table.length;
-	arr_trip_table[len] = CreateObjectForArrTrip();
-	arr_trip_table[len].amount = amount;
-	arr_trip_table[len].time_start = time_start;
-	arr_trip_table[len].place_start = place_start;
-	arr_trip_table[len].time_arrive = time_arrive;
-	arr_trip_table[len].place_arrive = place_arrive;
+    var amount = document.getElementById("amount").value;
+    var time_start = document.getElementById("time_start").value;
+    var place_start = document.getElementById("place_start").value;
+    var time_arrive = document.getElementById("time_arrive").value;
+    var place_arrive = document.getElementById("place_arrive").value;
 
-	preshow();
+    // alert('add:' + amount);
+    // alert('this is ' + tripnum + ' trip');
+    // alert('total amount:' + total);
+
+    var len = arr_trip_table.length;
+    arr_trip_table[len] = CreateObjectForArrTrip();
+    arr_trip_table[len].amount = amount;
+    arr_trip_table[len].time_start = time_start;
+    arr_trip_table[len].place_start = place_start;
+    arr_trip_table[len].time_arrive = time_arrive;
+    arr_trip_table[len].place_arrive = place_arrive;
+
+    preshow();
 }
 
 function ReduceTrip()
 {
-	arr_trip_table.pop();
-	preshow();
+    arr_trip_table.pop();
+    preshow();
 }
 
 function DeleteTrip(i)
 {
-	arr_trip_table.splice(i, 1);
-	preshow();
+    arr_trip_table.splice(i, 1);
+    preshow();
 }
 
 function InsertTrip(i)
 {
-	var amount = document.getElementById("amount").value;
-	var time_start = document.getElementById("time_start").value;
-	var place_start = document.getElementById("place_start").value;
-	var time_arrive = document.getElementById("time_arrive").value;
-	var place_arrive = document.getElementById("place_arrive").value;
-	
-	var trip = CreateObjectForArrTrip();
-	trip.amount = amount;
-	trip.time_start = time_start;
-	trip.place_start = place_start;
-	trip.time_arrive = time_arrive;
-	trip.place_arrive = place_arrive;
+    var amount = document.getElementById("amount").value;
+    var time_start = document.getElementById("time_start").value;
+    var place_start = document.getElementById("place_start").value;
+    var time_arrive = document.getElementById("time_arrive").value;
+    var place_arrive = document.getElementById("place_arrive").value;
 
-	arr_trip_table.splice(i, 0, trip);
+    var trip = CreateObjectForArrTrip();
+    trip.amount = amount;
+    trip.time_start = time_start;
+    trip.place_start = place_start;
+    trip.time_arrive = time_arrive;
+    trip.place_arrive = place_arrive;
 
-	preshow();
+    arr_trip_table.splice(i, 0, trip);
+
+    preshow();
 }
 
 function preshow()
 {
-	if(arr_trip_table.length == 0) 
-	{
-		document.getElementById("preshow").innerHTML = "";
-		return;
-	}
-	var mode = (document.getElementById("toggle1").checked == true ? 0 : 1);
-	switch(mode)
-	{
-		case 0:
-		{
-			var receipt = GetReceipt();
-			document.getElementById("preshow").innerHTML=receipt;
-		}
-		break;
+    if(arr_trip_table.length == 0) 
+    {
+        document.getElementById("preshow").innerHTML = "";
+        return;
+    }
+    var mode = (document.getElementById("toggle1").checked == true ? 0 : 1);
+    switch(mode)
+    {
+        case 0:
+        {
+            var receipt = GetReceipt();
+            document.getElementById("preshow").innerHTML=receipt;
+        }
+        break;
 
-		case 1:
-		{
-			var table = '\
+        case 1:
+        {
+            var table = '\
 <table id="align-table" border="1" style="border-collapse: collapse;">\
-	<tr>\
-		<th bgcolor="#FF0000" style="padding: 2px 1px;text-align:center;">DEL</th>\
-		<th bgcolor="#6495ED"style="padding: 2px 1px;text-align:center">INS</th>\
-		<th>amount</th>\
-		<th>time_start</th>\
-		<th>place_start</th>\
-		<th>time_arrive</th>\
-		<th>place_arrive</th>\
-	</tr>';
+    <tr>\
+        <th bgcolor="#FF0000" style="padding: 2px 1px;text-align:center;">DEL</th>\
+        <th bgcolor="#6495ED"style="padding: 2px 1px;text-align:center">INS</th>\
+        <th>amount</th>\
+        <th>time_start</th>\
+        <th>place_start</th>\
+        <th>time_arrive</th>\
+        <th>place_arrive</th>\
+    </tr>';
 
-			for(var i in arr_trip_table)
-			{
-				table += '\
-	<tr>\
-		<td style="padding: 2px 1px;text-align:center;"><input style="border-radius:30px;" type="button" name="delete" value="X" onclick="DeleteTrip(' + i +')"></td>\
-		<td style="padding: 2px 1px;text-align:center;"><input style="border-radius:0px;" type="button" name="insert" value="+" onclick="InsertTrip(' + i +')"></td>\
-		<td>' + arr_trip_table[i].amount + '</td>\
-		<td>' + arr_trip_table[i].time_start + '</td>\
-		<td>' + arr_trip_table[i].place_start + '</td>\
-		<td>' + arr_trip_table[i].time_arrive + '</td>\
-		<td>' + arr_trip_table[i].place_arrive + '</td>\
-	</tr>';
-			}
-			table += '\
+            for(var i in arr_trip_table)
+            {
+                table += '\
+    <tr>\
+        <td style="padding: 2px 1px;text-align:center;"><input style="border-radius:30px;" type="button" name="delete" value="X" onclick="DeleteTrip(' + i +')"></td>\
+        <td style="padding: 2px 1px;text-align:center;"><input style="border-radius:0px;" type="button" name="insert" value="+" onclick="InsertTrip(' + i +')"></td>\
+        <td>' + arr_trip_table[i].amount + '</td>\
+        <td>' + arr_trip_table[i].time_start + '</td>\
+        <td>' + arr_trip_table[i].place_start + '</td>\
+        <td>' + arr_trip_table[i].time_arrive + '</td>\
+        <td>' + arr_trip_table[i].place_arrive + '</td>\
+    </tr>';
+            }
+            table += '\
 </table>';
-			document.getElementById("preshow").innerHTML=table;
-		}
-	}
-	
-	
+            document.getElementById("preshow").innerHTML=table;
+        }
+    }
 }
 
 function GetReceipt()
@@ -529,62 +525,62 @@ var tripnum = 0;
 trip_body = '';
 for(var i = 0; i < arr_trip_table.length; i++)
 {
-	tripnum++;
-	total = total.add(Number(arr_trip_table[i].amount));
+    tripnum++;
+    total = total.add(Number(arr_trip_table[i].amount));
 
-	var tmpbody = '\
-	            <tr>\n\
-	                <td style="font-size: 32px;font-weight: bold;padding-top: 40px">Order Amount:  MXN$'+arr_trip_table[i].amount+'</td>\n\
-	            </tr>\n\
-	            <tr>\n\
-	                <td style="font-size: 26px;font-weight: bold;padding-top: 10px"></td>\n\
-	            </tr>\n\
-	            <tr>\n\
-	                <td style="font-size: 26px"></td>\n\
-	            </tr>\n\
-	            <tr>\n\
-	                <td style="font-size: 26px;color: #999999;padding-top: 20px">\n\
-	                <!--出发时间-->\n\
-	                '+arr_trip_table[i].time_start+'\n\
-	                </td>\n\
-	            </tr>\n\
-	            <tr>\n\
-	                <td>\n\
-	                    <table cellpadding="0" cellspacing="0" style="padding-top: 10px;">\n\
-	                        <tr>\n\
-	                            <td>\n\
-	                                <span style="width: 12px;height: 12px;background: #00D0AD;border-radius: 100%;display: inline-block"></span>\n\
-	                            </td>\n\
-	                            <td style="font-size: 26px;padding-left: 14px">\n\
-	                                From: '+place[arr_trip_table[i].place_start]+'\n\
-	                            </td>\n\
-	                        </tr>\n\
-	                    </table>\n\
-	                </td>\n\
-	            \n\
-	            </tr>\n\
-	            <tr>\n\
-	                <td style="font-size: 26px;color: #999999;padding-top: 10px">\n\
-	                <!--到达时间-->\n\
-	                '+arr_trip_table[i].time_arrive+'\n\
-	                </td>\n\
-	            </tr>\n\
-	            <tr>\n\
-	                <td>\n\
-	                    <table cellpadding="0" cellspacing="0" style="padding-top: 10px;">\n\
-	                        <tr>\n\
-	                            <td>\n\
-	                                <span style="width: 12px;height: 12px;background: #FF7733;border-radius: 100%;display: inline-block"></span>\n\
-	                            </td>\n\
-	                            <td style="font-size: 26px;padding-left: 14px">\n\
-	                                To: '+place[arr_trip_table[i].place_arrive]+'\n\
-	                            </td>\n\
-	                        </tr>\n\
-	                    </table>\n\
-	                </td>\n\
-	            </tr>\n\
-	';
-	trip_body += tmpbody;
+    var tmpbody = '\
+                <tr>\n\
+                    <td style="font-size: 32px;font-weight: bold;padding-top: 40px">Order Amount:  MXN$'+arr_trip_table[i].amount+'</td>\n\
+                </tr>\n\
+                <tr>\n\
+                    <td style="font-size: 26px;font-weight: bold;padding-top: 10px"></td>\n\
+                </tr>\n\
+                <tr>\n\
+                    <td style="font-size: 26px"></td>\n\
+                </tr>\n\
+                <tr>\n\
+                    <td style="font-size: 26px;color: #999999;padding-top: 20px">\n\
+                    <!--出发时间-->\n\
+                    '+arr_trip_table[i].time_start+'\n\
+                    </td>\n\
+                </tr>\n\
+                <tr>\n\
+                    <td>\n\
+                        <table cellpadding="0" cellspacing="0" style="padding-top: 10px;">\n\
+                            <tr>\n\
+                                <td>\n\
+                                    <span style="width: 12px;height: 12px;background: #00D0AD;border-radius: 100%;display: inline-block"></span>\n\
+                                </td>\n\
+                                <td style="font-size: 26px;padding-left: 14px">\n\
+                                    From: '+place[arr_trip_table[i].place_start]+'\n\
+                                </td>\n\
+                            </tr>\n\
+                        </table>\n\
+                    </td>\n\
+                \n\
+                </tr>\n\
+                <tr>\n\
+                    <td style="font-size: 26px;color: #999999;padding-top: 10px">\n\
+                    <!--到达时间-->\n\
+                    '+arr_trip_table[i].time_arrive+'\n\
+                    </td>\n\
+                </tr>\n\
+                <tr>\n\
+                    <td>\n\
+                        <table cellpadding="0" cellspacing="0" style="padding-top: 10px;">\n\
+                            <tr>\n\
+                                <td>\n\
+                                    <span style="width: 12px;height: 12px;background: #FF7733;border-radius: 100%;display: inline-block"></span>\n\
+                                </td>\n\
+                                <td style="font-size: 26px;padding-left: 14px">\n\
+                                    To: '+place[arr_trip_table[i].place_arrive]+'\n\
+                                </td>\n\
+                            </tr>\n\
+                        </table>\n\
+                    </td>\n\
+                </tr>\n\
+    ';
+    trip_body += tmpbody;
 }
 tr_total = '\
                 <tr>\n\
@@ -710,18 +706,18 @@ Number.prototype.add = function (arg) {
 
 function if_preview()
 {
-	preshow();
+    preshow();
 }
 
 function save()
 {
-	var data = JSON.stringify(arr_trip_table);
-	download('tmpTrip.dat', data);
+    var data = JSON.stringify(arr_trip_table);
+    download('tmpTrip.dat', data);
 }
 
 function load()
 {
-	document.getElementById('input_file').click();
+    document.getElementById('input_file').click();
 }
 
 
@@ -736,21 +732,21 @@ function upload()
     }
     reader.readAsText(file);
     reader.onload = function(ev) {
-    	if(arr_trip_table.length != 0)
-    	{
-    		if(!confirm("You already add some trip, are you sure to reload the old data?"))
-    		{
-    			return;
-    		}
-    	}
-    	arr_trip_table = JSON.parse(this.result);
-    	preshow();
+        if(arr_trip_table.length != 0)
+        {
+            if(!confirm("You already add some trip, are you sure to reload the old data?"))
+            {
+                return;
+            }
+        }
+        arr_trip_table = JSON.parse(this.result);
+        preshow();
     }
     input_file.value = '';
     return true;
 }
 
-	var input_file=document.getElementById("input_file");
+    var input_file=document.getElementById("input_file");
     if (window.FileReader) 
     {
         input_file.addEventListener("change",upload,false);
@@ -760,18 +756,18 @@ function upload()
         alert("This browser doesn't support!");
     }
 
-	var arr_trip_table = new Array();
+    var arr_trip_table = new Array();
 
 function CreateObjectForArrTrip()
 {
-	var dic_trip = {};
-	dic_trip.amount = '';
-	dic_trip.time_start = '';
-	dic_trip.place_start = '';
-	dic_trip.time_arrive = '';
-	dic_trip.place_arrive = '';
-	return dic_trip;
-}
+    var dic_trip = {};
+    dic_trip.amount = '';
+    dic_trip.time_start = '';
+    dic_trip.place_start = '';
+    dic_trip.time_arrive = '';
+    dic_trip.place_arrive = '';
+    return dic_trip;
+    }
 </script>
 </body>
 <meta name="release" content="
