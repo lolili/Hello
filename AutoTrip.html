@@ -204,6 +204,7 @@ strong {
                     <option value='gsi'>GSI</option>
                     <option value='bienestar'>Bienestar</option>
                     <option value='bbva'>BBVA</option>
+                    <option value='prosa'>PROSA</option>
                 </select>
             </td>
         </tr>
@@ -220,6 +221,7 @@ strong {
                     <option value='gsi'>GSI</option>
                     <option value='bienestar'>Bienestar</option>
                     <option value='bbva'>BBVA</option>
+                    <option value='prosa'>PROSA</option>
                 </select>
             </td>
         </tr>
@@ -239,6 +241,7 @@ strong {
     var place_gsi = 'Priv. Rancho de La Cruz 98, Jamaica, Venustiano Carranza, 15800 Ciudad de México, CDMX, Mexico';
     var place_bienestar = 'Tizapán San Ángel, Progreso Tizapán, 01090  Ciudad de México';
     var place_bbva = 'Calz. Gral. Mariano Escobedo 303, Granada, 11520 Ciudad de México, CDMX';
+    var place_prosa = 'Bahía de Chachalacas 7, Veronica Anzures, 11300 Miguel Hidalgo, DF, México';
 
     var place = [];
     place['home'] = place_home;
@@ -246,6 +249,7 @@ strong {
     place['gsi'] = place_gsi;
     place['bienestar'] = place_bienestar;
     place['bbva'] = place_bbva;
+    place['prosa'] = place_prosa;
 
 var parserDate = function (date) {  
     var t = Date.parse(date);  
@@ -524,13 +528,14 @@ Gateway East, Singapore 189721</td>\n\
 var tr_total = '';
 var receipt = '';
 
-var total = 0.00;
+var ftotal = 0.00;
+var total = '';
 var tripnum = 0;
 trip_body = '';
 for(var i = 0; i < arr_trip_table.length; i++)
 {
     tripnum++;
-    total = total.add(Number(arr_trip_table[i].amount));
+    ftotal = ftotal.add(Number(arr_trip_table[i].amount));
 
     var tmpbody = '\
                 <tr>\n\
@@ -586,6 +591,8 @@ for(var i = 0; i < arr_trip_table.length; i++)
     ';
     trip_body += tmpbody;
 }
+total = ftotal.toFixed(2);
+
 tr_total = '\
                 <tr>\n\
                     <td>\n\
