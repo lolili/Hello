@@ -200,11 +200,14 @@ strong {
             <td>
                 <select id='place_start'>
                     <option value='home'>HOME</option>
+                    <option value='Puerta'>Puerta</option>
                     <option value='office'>OFFICE</option>
                     <option value='gsi'>GSI</option>
                     <option value='bienestar'>Bienestar</option>
                     <option value='bbva'>BBVA</option>
                     <option value='prosa'>PROSA</option>
+                    <option value='M_airport'>M_airport</option>
+                    <option value='M_office'>M_office</option>
                 </select>
             </td>
         </tr>
@@ -217,11 +220,14 @@ strong {
             <td>
                 <select id='place_arrive'>
                     <option value='home'>HOME</option>
+                    <option value='Puerta'>Puerta</option>
                     <option value='office'>OFFICE</option>
                     <option value='gsi'>GSI</option>
                     <option value='bienestar'>Bienestar</option>
                     <option value='bbva'>BBVA</option>
                     <option value='prosa'>PROSA</option>
+                    <option value='M_airport'>M_airport</option>
+                    <option value='M_office'>M_office</option>
                 </select>
             </td>
         </tr>
@@ -235,21 +241,31 @@ strong {
 <div id='preshow' style='position:absolute; left:500px; top:10px; border:1px solid #000'>
 
 <script type="text/javascript">
+	/**页面加载先加载日期选择器**/
+    $(function(){
+    $("#time_start").datetimepicker({format:'d/m/Y H:i'});
+    });
 
     var place_home = 'Av. Río San Joaquín 12, Lomas de Sotelo, Miguel Hidalgo, 11200 Ciudad de México, CDMX, Mexico';
+    var Puerta = 'Puerta, Argentina Poniente, Miguel Hidalgo, 11230 Ciudad de México, CDMX';
     var place_office = 'Nte. 31-A 36, Lindavista Vallejo III Secc, Gustavo A. Madero, 07720 Ciudad de México, CDMX, Mexico';
     var place_gsi = 'Priv. Rancho de La Cruz 98, Jamaica, Venustiano Carranza, 15800 Ciudad de México, CDMX, Mexico';
     var place_bienestar = 'Tizapán San Ángel, Progreso Tizapán, 01090  Ciudad de México';
     var place_bbva = 'Calz. Gral. Mariano Escobedo 303, Granada, 11520 Ciudad de México, CDMX';
     var place_prosa = 'Bahía de Chachalacas 7, Veronica Anzures, 11300 Miguel Hidalgo, DF, México';
+    var M_airport = 'C. Priv. Belgrado 736, Centro de Guadalupe, 67100 Guadalupe, N.L., Monterrey';
+    var M_office = 'Alhelí 202, Torres de Santo Domingo, 66440 San Nicolás de los Garza, N.L.，Monterrey';
 
     var place = [];
     place['home'] = place_home;
+    place['Puerta'] = Puerta;
     place['office'] = place_office;
     place['gsi'] = place_gsi;
     place['bienestar'] = place_bienestar;
     place['bbva'] = place_bbva;
     place['prosa'] = place_prosa;
+    place['M_airport'] = M_airport;
+    place['M_office'] = M_office;
 
 var parserDate = function (date) {  
     var t = Date.parse(date);  
@@ -261,17 +277,46 @@ var parserDate = function (date) {
 };
 function random()
 {
-    document.getElementById("amount").value = randomNum(120.12, 180.08,0);
-
-    var time_start_m = randomNum(10,59,1);
-    $(function() {
-        $("#time_start").datetimepicker({format:'d/m/Y H:'+ time_start_m});
-      });
-    var cost_time = randomNum(25,35,1);
-    var time_arrive_m = time_start_m + cost_time;
-    $(function() {
-        $("#time_arrive").datetimepicker({format:'d/m/Y H:i'});
-      });
+	//alert(document.getElementById("time_start").value);
+    //document.getElementById("amount").value = randomNum(120.12, 180.08,0);
+	$("#amount").val(randomNum(120.12, 180.08,0));
+    //var time_start_m = randomNum(10,59,1);
+    //$(function() {
+    //    $("#time_start").datetimepicker({format:'d/m/Y H:'+ time_start_m});
+    //  });
+    //var cost_time = randomNum(25,35,1);
+    //var time_arrive_m = time_start_m + cost_time;
+    //$(function() {
+    //    $("#time_arrive").val($("#time_start"));//datetimepicker({format:'d/m/Y H:i'});
+    // });
+	
+    var time_start_m = randomNum(0,59,1);
+	var cost_time = randomNum(25,45,1);
+	var time_start_day = ($("#time_start").val()).substring(0,11);
+	var time_start_h = parseInt(($("#time_start").val()).substring(11,13));
+    if(time_start_h/10 < 1){
+        time_start_h = ('0'+time_start_h);
+    }
+    if(time_start_m/10 < 1){
+        time_start_m = ('0'+time_start_m);
+    }
+    $("#time_start").val(time_start_day + time_start_h + ":" + time_start_m);
+	time_start_m = parseInt(($("#time_start").val()).substring(14));
+    var time_arrive_h = parseInt(($("#time_start").val()).substring(11,13));
+	var time_arrive_m = time_start_m + cost_time;
+	if(time_arrive_m >= 60){
+	time_arrive_m -= 60;
+	time_arrive_h += 1;
+	}
+	if(time_arrive_h/10 < 1){
+		time_arrive_h = ('0'+time_arrive_h);
+	}
+	if(time_arrive_m/10 < 1){
+		time_arrive_m = ('0'+time_arrive_m);
+	}
+	//alert(time_arrive_h);
+	$("#time_arrive").val(time_start_day + time_arrive_h + ":" + time_arrive_m);
+	//document.getElementById("time_arrive").value  = document.getElementById("time_start").value;
 
 }
 
